@@ -125,19 +125,29 @@ AZURE_COSMOS_KEY=your-cosmos-key
 
 > **Note:** The app works in degraded mode — chat works with just OpenAI keys. Cosmos, Storage, and Search are optional (features gracefully disable if not configured).
 
-### 4. Start the Dev Server
+### 4. Start the Server
+
+**Clean start (recommended after config changes or first run):**
+
+```bash
+npm run clean && npm run dev
+```
+
+`npm run clean` wipes the `.next` build cache. `npm run dev` then boots the custom Node server (`server.js`) which starts Next.js on port 3000.
+
+**Regular start:**
 
 ```bash
 npm run dev
 ```
 
-The server starts on **http://localhost:3000**:
+Expected output:
 
 ```
 ▲ Next.js 15.1.0
   - Local:   http://localhost:3000
-  - Network: http://172.24.0.1:3000
-✓ Ready in 6.2s
+  - Network: http://0.0.0.0:3000
+✓ Ready in ~6s
 ```
 
 Open **http://localhost:3000** in your browser.
