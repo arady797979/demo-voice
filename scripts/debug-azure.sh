@@ -1,7 +1,12 @@
 #!/bin/bash
-ENDPOINT="https://ahmedrady-0607-resource.cognitiveservices.azure.com"
-KEY="28R3UmG39XVqmtYe8DNwGJ6Uy7uUgWMZDELdCP0r4Wme5oxs6OD9JQQJ99CGACfhMk5XJ3w3AAAAACOGfj1N"
-API_VER="2025-01-01-preview"
+# Load environment variables from .env if present
+if [ -f "$(dirname "$0")/../.env" ]; then
+  source "$(dirname "$0")/../.env"
+fi
+
+ENDPOINT="${AZURE_ENDPOINT:?'AZURE_ENDPOINT is not set. Copy .env.example to .env and fill in your values.'}"
+KEY="${AZURE_API_KEY:?'AZURE_API_KEY is not set. Copy .env.example to .env and fill in your values.'}"
+API_VER="${AZURE_API_VERSION:-2025-01-01-preview}"
 
 echo "=== Testing aria-chat (chat) ==="
 curl -s -w "\nHTTP:%{http_code}\n" \
