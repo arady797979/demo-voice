@@ -1,0 +1,49 @@
+{
+  "name": "aria-agent",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "node server.js",
+    "dev:next": "next dev --port 3000",
+    "dev:debug": "cross-env NODE_OPTIONS='--inspect=0.0.0.0:9229' node server.js",
+    "build": "next build",
+    "start": "next start --port 3000",
+    "lint": "next lint",
+    "typecheck": "tsc --noEmit",
+    "clean": "node -e \"require('fs').rmSync('.next',{recursive:true,force:true}); console.log('✓ .next cache cleared')\"",
+    "test:models": "node scripts/test-models.mjs",
+    "health": "node -e \"fetch('http://localhost:3000/api/health').then(r=>r.json()).then(d=>console.log(JSON.stringify(d,null,2))).catch(e=>console.error('Server not running:',e.message))\""
+  },
+  "dependencies": {
+    "@azure/ai-form-recognizer": "^5.0.0",
+    "@azure/cosmos": "^4.2.0",
+    "@azure/identity": "^4.5.0",
+    "@azure/openai": "^2.0.0",
+    "@azure/search-documents": "^12.1.0",
+    "@azure/storage-blob": "^12.26.0",
+    "clsx": "^2.1.1",
+    "framer-motion": "^12.0.0",
+    "lucide-react": "^0.475.0",
+    "next": "15.1.0",
+    "openai": "^4.78.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "react-markdown": "^9.0.0",
+    "react-syntax-highlighter": "^15.6.1",
+    "remark-gfm": "^4.0.0",
+    "uuid": "^11.0.0",
+    "ws": "^8.21.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "@types/react-syntax-highlighter": "^15.5.13",
+    "@types/uuid": "^10.0.0",
+    "concurrently": "^9.1.0",
+    "cross-env": "^10.1.0",
+    "eslint": "^9.0.0",
+    "eslint-config-next": "15.1.0",
+    "typescript": "^5.7.0"
+  }
+}

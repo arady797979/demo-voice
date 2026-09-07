@@ -1,0 +1,209 @@
+/* ── components/VoiceOrb/VoiceOrb.module.css ─────────────────
+   The animated voice orb — ARIA's visual presence            */
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-8);
+}
+
+/* ── Orb ─────────────────────────────────────────────────── */
+.orbWrapper {
+  position: relative;
+  width: 160px;
+  height: 160px;
+}
+
+.orbRing {
+  position: absolute;
+  inset: -12px;
+  border-radius: 50%;
+  border: 1px solid transparent;
+  transition: all var(--duration-slow) var(--ease-smooth);
+}
+
+.orbRing.active {
+  border-color: rgba(99, 102, 241, 0.3);
+  animation: ringExpand 2s ease-in-out infinite;
+}
+
+@keyframes ringExpand {
+  0%, 100% { transform: scale(1); opacity: 0.6; }
+  50%       { transform: scale(1.08); opacity: 0.2; }
+}
+
+.orb {
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  cursor: pointer;
+  position: relative;
+  transition: all var(--duration-base) var(--ease-smooth);
+  outline: none;
+}
+
+.orb::before {
+  content: '';
+  position: absolute;
+  inset: 2px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, rgba(255,255,255,0.15), transparent 60%);
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* ── State Styles ────────────────────────────────────────── */
+.orb.idle {
+  background: radial-gradient(circle at 40% 40%, #4f46e5, #1e1b4b);
+  box-shadow:
+    0 0 0 1px rgba(99, 102, 241, 0.3),
+    0 0 40px rgba(99, 102, 241, 0.2),
+    0 16px 48px rgba(0, 0, 0, 0.6);
+}
+
+.orb.idle:hover {
+  transform: scale(1.04);
+  box-shadow:
+    0 0 0 1px rgba(99, 102, 241, 0.5),
+    0 0 60px rgba(99, 102, 241, 0.4),
+    0 20px 60px rgba(0, 0, 0, 0.7);
+}
+
+.orb.connecting {
+  background: radial-gradient(circle at 40% 40%, #6366f1, #312e81);
+  animation: connectingPulse 1s ease-in-out infinite;
+}
+
+@keyframes connectingPulse {
+  0%, 100% { transform: scale(1); }
+  50%       { transform: scale(1.03); }
+}
+
+.orb.listening {
+  background: radial-gradient(circle at 40% 40%, #818cf8, #4f46e5);
+  box-shadow:
+    0 0 0 1px rgba(129, 140, 248, 0.6),
+    0 0 0 8px rgba(99, 102, 241, 0.1),
+    0 0 80px rgba(99, 102, 241, 0.5),
+    0 16px 48px rgba(0, 0, 0, 0.6);
+  animation: orbListening 2s ease-in-out infinite;
+}
+
+.orb.thinking {
+  background: radial-gradient(circle at 40% 40%, #a78bfa, #7c3aed);
+  box-shadow:
+    0 0 0 1px rgba(167, 139, 250, 0.6),
+    0 0 80px rgba(139, 92, 246, 0.6),
+    0 16px 48px rgba(0, 0, 0, 0.6);
+  animation: thinkingRotate 3s linear infinite;
+}
+
+@keyframes thinkingRotate {
+  from { filter: hue-rotate(0deg); }
+  to   { filter: hue-rotate(360deg); }
+}
+
+.orb.speaking {
+  background: radial-gradient(circle at 40% 40%, #06b6d4, #0891b2);
+  box-shadow:
+    0 0 0 1px rgba(6, 182, 212, 0.6),
+    0 0 80px rgba(6, 182, 212, 0.5),
+    0 16px 48px rgba(0, 0, 0, 0.6);
+  animation: speakingPulse 0.8s ease-in-out infinite;
+}
+
+@keyframes speakingPulse {
+  0%, 100% { transform: scale(1); }
+  50%       { transform: scale(1.06); }
+}
+
+.orb.error {
+  background: radial-gradient(circle at 40% 40%, #ef4444, #991b1b);
+  box-shadow: 0 0 40px rgba(239, 68, 68, 0.4);
+}
+
+/* ── Orb Icon ────────────────────────────────────────────── */
+.orbIcon {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+}
+
+/* ── Wave Bars ───────────────────────────────────────────── */
+.waveContainer {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  height: 40px;
+}
+
+.waveBar {
+  width: 4px;
+  border-radius: var(--radius-full);
+  background: var(--brand-primary);
+  transform-origin: bottom;
+  transition: background var(--duration-base);
+}
+
+.waveBar.listening { background: var(--brand-primary); }
+.waveBar.speaking  { background: var(--state-info); }
+.waveBar.thinking  { background: var(--brand-secondary); }
+.waveBar.idle      { background: var(--surface-4); }
+
+/* ── Status Text ─────────────────────────────────────────── */
+.statusLabel {
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  transition: color var(--duration-base);
+}
+
+.statusLabel.active { color: var(--brand-primary); }
+
+/* ── Transcript ───────────────────────────────────────────── */
+.transcript {
+  max-width: 320px;
+  text-align: center;
+  font-size: 15px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  min-height: 24px;
+  transition: opacity var(--duration-base);
+}
+
+.cursor {
+  display: inline-block;
+  width: 2px;
+  height: 14px;
+  background: var(--brand-primary);
+  margin-left: 2px;
+  vertical-align: middle;
+  animation: blink 1s step-end infinite;
+}
+
+/* ── Stop Button ─────────────────────────────────────────── */
+.stopBtn {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-5);
+  border-radius: var(--radius-full);
+  border: 1px solid rgba(239, 68, 68, 0.4);
+  background: rgba(239, 68, 68, 0.08);
+  color: #f87171;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all var(--duration-fast);
+}
+
+.stopBtn:hover {
+  background: rgba(239, 68, 68, 0.15);
+  border-color: rgba(239, 68, 68, 0.6);
+}
